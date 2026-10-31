@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Float Sol — Solana Depth Intelligence</title>
+  <meta name="description" content="Float Sol tracks new Solana coins, whale wallets, and calls. Dive into a small, sharp on-chain ecosystem." />
+  <meta name="theme-color" content="#0a2f4a" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="ocean" aria-hidden="true"></canvas>
+  <div class="caustic" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <div class="scroll-whale" id="scrollWhale" aria-hidden="true">
+    <div class="scroll-whale-sonar">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="whale-stage" id="whaleCard">
+      <img class="whale-img" id="whaleImg" src="whale.png" alt="" decoding="async" draggable="false" />
+    </div>
+  </div>
+
+  <header class="nav">
+    <a class="nav-brand" href="#surface">
+      <img class="nav-logo" src="logo.png" width="36" height="36" alt="" decoding="async" />
+      <span>Float Sol</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#coins">Coins</a>
+      <a href="#whales">Whales</a>
+      <a href="#calls">Calls</a>
+      <a href="#ecosystem">Ecosystem</a>
+    </nav>
+    <div class="nav-actions">
+      <button
+        type="button"
+        class="nav-ca"
+        id="navCa"
+        data-ca=""
+        aria-label="Copy contract address"
+        title="Copy contract address"
+      >
+        <span class="nav-ca-tag">CA</span>
+        <code class="nav-ca-addr" id="navCaAddr">Soon</code>
+        <span class="nav-ca-action" id="navCaAction">copy</span>
+      </button>
+      <a
+        class="nav-x"
+        href="https://x.com/Floatsol_xyz"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open Float Sol on X"
+        title="Open @Floatsol_xyz on X"
+      >
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.743l7.727-8.851L1.89 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+        </svg>
+        <span>@Floatsol_xyz</span>
+      </a>
+    </div>
+  </header>
+
+  <aside class="depth-meter" aria-live="polite">
+    <span class="depth-label">Depth</span>
+    <span class="depth-value" id="depthValue">0</span>
+    <div class="depth-track">
+      <div class="depth-fill" id="depthFill"></div>
+    </div>
+  </aside>
+
+  <main>
+    <section class="panel hero" id="surface">
+      <div class="section-fx" aria-hidden="true">
+        <span class="fx-ring"></span>
+        <span class="fx-ring delay-2"></span>
+        <i class="fx-dot"></i><i class="fx-dot"></i><i class="fx-dot"></i><i class="fx-dot"></i>
+      </div>
+      <div class="hero-copy">
+        <p class="brand">Float Sol</p>
+        <h1>Surface intel.<br />Deeper edge.</h1>
+        <p class="lede">A Solana utility for finding new coins, following whale wallets, and catching calls before the noise.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#coins">Start diving</a>
+          <a class="btn ghost" href="#ecosystem">See the toolkit</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel discovery" id="coins">
+      <div class="section-fx" aria-hidden="true">
+        <span class="fx-ring soft"></span>
+        <span class="fx-pulse"></span>
+        <i class="fx-dot"></i><i class="fx-dot"></i><i class="fx-dot"></i>
+      </div>
+      <div class="discovery-layout">
+        <div class="discovery-copy feature-inner">
+          <p class="eyebrow">01 — Discovery</p>
+          <h2>New coins, as they break the surface</h2>
+          <p class="copy">Watch fresh Solana launches appear in real time. Filter by liquidity, deployer history, and early flow so you see signal — not every splash.</p>
+          <div class="discovery-cards" role="list">
+            <article class="d-card" role="listitem">
+              <span class="d-card-icon" aria-hidden="true"></span>
+              <h3>Live mint radar</h3>
+              <p>Detect new pools and mints the moment they surface.</p>
+            </article>
+            <article class="d-card" role="listitem">
+              <span class="d-card-icon" aria-hidden="true"></span>
+              <h3>Deployer check</h3>
+              <p>Snapshot risk from deployer history before you dive in.</p>
+            </article>
+            <article class="d-card" role="listitem">
+              <span class="d-card-icon" aria-hidden="true"></span>
+              <h3>Holder heat</h3>
+              <p>See early concentration and smart money clustering.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel whales" id="whales">
+      <div class="section-fx" aria-hidden="true">
+        <span class="fx-wave"></span>
+        <span class="fx-wave delay-2"></span>
+        <i class="fx-dot"></i><i class="fx-dot"></i><i class="fx-dot"></i><i class="fx-dot"></i>
+      </div>
+      <div class="whales-layout">
+        <div class="feature-inner whales-copy">
+          <p class="eyebrow">02 — Whale Watch</p>
+          <h2>Follow the wallets that move the current</h2>
+          <p class="copy">Track large Solana wallets as they accumulate, exit, and rotate. Map influence without drowning in raw transaction noise.</p>
+          <ul class="points">
+            <li>Size-filtered wallet streams</li>
+            <li>Cluster &amp; label views</li>
+            <li>Quiet alerts on meaningful moves</li>
+          </ul>
+        </div>
+
+        <div class="whale-terminal" id="whaleTerminal" aria-label="Whale tracking terminal">
+          <div class="wt-chrome">
+            <div class="wt-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="wt-title">
+              <span class="wt-prompt">root@floatsol</span>
+              <span class="wt-sep">:</span>
+              <span class="wt-path">~/whale-watch</span>
+              <span class="wt-cursor" aria-hidden="true"></span>
+            </div>
+            <div class="wt-status">
+              <span class="wt-lock">TRACKING</span>
+              <span id="wtPing">12ms</span>
+            </div>
+          </div>
+
+          <div class="wt-body">
+            <div class="wt-main">
+              <div class="wt-cmdline">
+                <span class="wt-prompt">$</span>
+                <span class="wt-type" id="wtTypeCmd">trace --whales --live --min=50SOL</span>
+              </div>
+
+              <div class="wt-grid-head">
+                <span>WALLET</span>
+                <span>TAG</span>
+                <span>FLOW</span>
+                <span>SIZE</span>
+                <span>STATE</span>
+              </div>
+              <div class="wt-wallets" id="wtWallets" role="list"></div>
+
+              <div class="wt-stream-head">
+                <span>// PACKET STREAM</span>
+                <span class="wt-stream-live">ENCRYPTED LINK</span>
+              </div>
+              <ul class="wt-stream" id="wtStream" aria-live="polite"></ul>
+            </div>
+          </div>
+
+          <div class="wt-scanlines" aria-hidden="true"></div>
+          <div class="wt-glow" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel calls" id="calls">
+      <div class="section-fx" aria-hidden="true">
+        <span class="fx-signal"></span>
+        <span class="fx-signal delay-2"></span>
+        <i class="fx-dot"></i><i class="fx-dot"></i><i class="fx-dot"></i>
+      </div>
+      <div class="calls-layout">
+        <div class="feature-inner calls-copy">
+          <p class="eyebrow">03 — Calls</p>
+          <h2>Calls that hold up under pressure</h2>
+          <p class="copy">A primed schema of trusted sources — ranked by potential, linked by style. Who called, when, and what the chain did after.</p>
+        </div>
+
+        <div class="calls-schema" id="callsSchema" aria-label="Call channel pyramid schema">
+          <div class="schema-legend" aria-hidden="true">
+            <span><i class="schema-pip a"></i> Prime</span>
+            <span><i class="schema-pip b"></i> Mid</span>
+            <span><i class="schema-pip c"></i> Spec</span>
+          </div>
+
+          <div class="schema-pyramid">
+            <svg class="schema-wires" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+              <path class="schema-wire" d="M500 100 L300 210" />
+              <path class="schema-wire" d="M500 100 L700 210" />
+              <path class="schema-wire" d="M300 300 L120 430" />
+              <path class="schema-wire" d="M300 300 L280 430" />
+              <path class="schema-wire" d="M300 300 L440 430" />
+              <path class="schema-wire" d="M700 300 L560 430" />
+              <path class="schema-wire" d="M700 300 L720 430" />
+              <path class="schema-wire" d="M700 300 L880 430" />
+              <circle class="schema-flow" r="4"><animateMotion dur="2.4s" repeatCount="indefinite" path="M500 100 L300 210" /></circle>
+              <circle class="schema-flow" r="4"><animateMotion dur="2.8s" begin="0.35s" repeatCount="indefinite" path="M500 100 L700 210" /></circle>
+              <circle class="schema-flow dim" r="3"><animateMotion dur="3.1s" begin="0.7s" repeatCount="indefinite" path="M300 300 L120 430" /></circle>
+              <circle class="schema-flow dim" r="3"><animateMotion dur="3.3s" begin="1s" repeatCount="indefinite" path="M700 300 L880 430" /></circle>
+              <circle class="schema-flow dim" r="3"><animateMotion dur="3s" begin="1.3s" repeatCount="indefinite" path="M300 300 L440 430" /></circle>
+            </svg>
+
+            <div class="schema-tier tier-1">
+              <article class="schema-node prime" data-grade="a" role="listitem">
+                <div class="schema-node-glow" aria-hidden="true"></div>
+                <div class="schema-node-top">
+                  <span class="call-avatar">FS</span>
+                  <div>
+                    <p class="schema-tier-label">TIER 01 · PRIME</p>
+                    <h3>Float Signal</h3>
+                  </div>
+                  <span class="call-grade">A</span>
+                </div>
+                <p class="schema-desc">In-house radar · Solana only</p>
+                <div class="call-style-row">
+                  <span class="call-style">Early alpha</span>
+                  <span class="call-style">Liquidity first</span>
+                  <span class="call-style">Low noise</span>
+                </div>
+                <div class="call-stats">
+                  <div><span>Hit</span><strong class="up">72%</strong></div>
+                  <div><span>Avg</span><strong>3.8x</strong></div>
+                  <div><span>Style</span><strong>Swing</strong></div>
+                  <div><span>Last</span><strong>14m</strong></div>
+                </div>
+              </article>
+            </div>
+
+            <div class="schema-tier tier-2">
+              <article class="schema-node" data-grade="a" role="listitem">
+                <div class="schema-node-glow" aria-hidden="true"></div>
+                <div class="schema-node-top">
+                  <span class="call-avatar accent">CW</span>
+                  <div>
+                    <p class="schema-tier-label">TIER 02</p>
+                    <h3>Current Watch</h3>
+                  </div>
+                  <span class="call-grade">A−</span>
+                </div>
+                <p class="schema-desc">Whale-led entries · size confirmed</p>
+                <div class="call-style-row">
+                  <span class="call-style">Whale mirror</span>
+                  <span class="call-style">Conviction</span>
+                </div>
+                <div class="call-stats compact">
+                  <div><span>Hit</span><strong class="up">68%</strong></div>
+                  <div><span>Avg</span><strong>2.4x</strong></div>
+                  <div><span>Last</span><strong>31m</strong></div>
+                </div>
+              </article>
+
+              <article class="schema-node" data-grade="b" role="listitem">
+                <div class="schema-node-glow" aria-hidden="true"></div>
+                <div class="schema-node-top">
+                  <span class="call-avatar warm">NC</span>
+                  <div>
+                    <p class="schema-tier-label">TIER 02</p>
+                    <h3>Narrative Current</h3>
+                  </div>
+                  <span class="call-grade">B+</span>
+                </div>
+                <p class="schema-desc">Theme rotations · catalysts</p>
+                <div class="call-style-row">
+                  <span class="call-style">Narrative</span>
+                  <span class="call-style">Catalyst</span>
+                </div>
+                <div class="call-stats compact">
+                  <div><span>Hit</span><strong class="up">61%</strong></div>
+                  <div><span>Avg</span><strong>5.1x</strong></div>
+                  <div><span>Last</span><strong>1h</strong></div>
+                </div>
+              </article>
+            </div>
+
+            <div class="schema-tier tier-3">
+              <article class="schema-node" data-grade="b" role="listitem">
+                <div class="schema-node-glow" aria-hidden="true"></div>
+                <div class="schema-node-top">
+                  <span class="call-avatar cool">DS</span>
+                  <div>
+                    <p class="schema-tier-label">TIER 03</p>
+                    <h3>Depth Scalps</h3>
+                  </div>
+                  <span class="call-grade">B</span>
+                </div>
+                <p class="schema-desc">Fast in / out · tight windows</p>
+                <div class="call-style-row">
+                  <span class="call-style">Scalp</span>
+                  <span class="call-style">Velocity</span>
+                </div>
+                <div class="call-stats compact">
+                  <div><span>Hit</span><strong>54%</strong></div>
+                  <div><span>Avg</span><strong>1.6x</strong></div>
+                  <div><span>Last</span><strong>6m</strong></div>
+                </div>
+              </article>
+
+              <article class="schema-node" data-grade="b" role="listitem">
+                <div class="schema-node-glow" aria-hidden="true"></div>
+                <div class="schema-node-top">
+                  <span class="call-avatar accent">RR</span>
+                  <div>
+                    <p class="schema-tier-label">TIER 03</p>
+                    <h3>Reef Relay</h3>
+                  </div>
+                  <span class="call-grade">B−</span>
+                </div>
+                <p class="schema-desc">Multi-source echo · filtered</p>
+                <div class="call-style-row">
+                  <span class="call-style">Relay</span>
+                  <span class="call-style">Filter</span>
+                </div>
+                <div class="call-stats compact">
+                  <div><span>Hit</span><strong>57%</strong></div>
+                  <div><span>Avg</span><strong>2.1x</strong></div>
+                  <div><span>Last</span><strong>22m</strong></div>
+                </div>
+              </article>
+
+              <article class="schema-node" data-grade="c" role="listitem">
+                <div class="schema-node-glow" aria-hidden="true"></div>
+                <div class="schema-node-top">
+                  <span class="call-avatar cool">TT</span>
+                  <div>
+                    <p class="schema-tier-label">TIER 03</p>
+                    <h3>Tide Tips</h3>
+                  </div>
+                  <span class="call-grade">C+</span>
+                </div>
+                <p class="schema-desc">Short bursts · micro timing</p>
+                <div class="call-style-row">
+                  <span class="call-style">Micro</span>
+                  <span class="call-style">Timing</span>
+                </div>
+                <div class="call-stats compact">
+                  <div><span>Hit</span><strong>48%</strong></div>
+                  <div><span>Avg</span><strong>1.9x</strong></div>
+                  <div><span>Last</span><strong>9m</strong></div>
+                </div>
+              </article>
+
+              <article class="schema-node" data-grade="c" role="listitem">
+                <div class="schema-node-glow" aria-hidden="true"></div>
+                <div class="schema-node-top">
+                  <span class="call-avatar muted">SP</span>
+                  <div>
+                    <p class="schema-tier-label">TIER 03 · SPEC</p>
+                    <h3>Splash Alerts</h3>
+                  </div>
+                  <span class="call-grade">C+</span>
+                </div>
+                <p class="schema-desc">Community heat · higher variance</p>
+                <div class="call-style-row">
+                  <span class="call-style">Degen</span>
+                  <span class="call-style">Optional</span>
+                </div>
+                <div class="call-stats compact">
+                  <div><span>Hit</span><strong class="down">41%</strong></div>
+                  <div><span>Avg</span><strong>9.0x</strong></div>
+                  <div><span>Last</span><strong>3m</strong></div>
+                </div>
+              </article>
+
+              <article class="schema-node" data-grade="c" role="listitem">
+                <div class="schema-node-glow" aria-hidden="true"></div>
+                <div class="schema-node-top">
+                  <span class="call-avatar muted">AP</span>
+                  <div>
+                    <p class="schema-tier-label">TIER 03 · SPEC</p>
+                    <h3>Abyss Pings</h3>
+                  </div>
+                  <span class="call-grade">C</span>
+                </div>
+                <p class="schema-desc">Deep noise · lottery range</p>
+                <div class="call-style-row">
+                  <span class="call-style">Noise</span>
+                  <span class="call-style">Lottery</span>
+                </div>
+                <div class="call-stats compact">
+                  <div><span>Hit</span><strong class="down">36%</strong></div>
+                  <div><span>Avg</span><strong>12x</strong></div>
+                  <div><span>Last</span><strong>2m</strong></div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel ecosystem" id="ecosystem">
+      <div class="eco-head">
+        <p class="eyebrow">04 — Ecosystem</p>
+        <h2>A small, sharp Solana stack</h2>
+        <p class="copy">Not another dashboard wall. Float Sol is a focused toolkit — discovery, whales, and calls — built to stay readable when the market is loud.</p>
+      </div>
+      <div class="eco-grid" role="list">
+        <article class="eco-item" role="listitem">
+          <h3>Radar</h3>
+          <p>Surface new pairs and early momentum without tab-switching chaos.</p>
+        </article>
+        <article class="eco-item" role="listitem">
+          <h3>Current</h3>
+          <p>Whale flow maps that show where size is actually drifting.</p>
+        </article>
+        <article class="eco-item" role="listitem">
+          <h3>Signal</h3>
+          <p>Call intelligence with on-chain aftermath, not hype alone.</p>
+        </article>
+        <article class="eco-item" role="listitem">
+          <h3>Depth</h3>
+          <p>Quiet tooling for operators who prefer clarity over clutter.</p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
